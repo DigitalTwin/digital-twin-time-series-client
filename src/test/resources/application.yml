@@ -1,0 +1,9 @@
+com.ge.dt.ptsc:
+  token-endpoint: https://<PREDIX_UAA_SERVICE_ID>.predix-uaa.run.aws-usw02-pr.ice.predix.io/oauth/token
+  clientId: <UAA_CLIENT_ID>
+  clientSecret: <UAA_CLIENT_ID>
+  zoneId: <PREDIX_TIME_SERIER_SERVICE_PREDIX_ZONE_ID>
+  ingestionEndpoint: wss://gateway-predix-data-services.run.aws-usw02-pr.ice.predix.io/v1/stream/messages
+  queryEndpoint: https://time-series-store-predix.run.aws-usw02-pr.ice.predix.io/v1/datapoints
+#  proxyHost: <PROXY_HOST_HERE>
+#  proxyPort: <PROXY_PORT_HERE>
