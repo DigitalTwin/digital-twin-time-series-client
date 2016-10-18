@@ -1,4 +1,4 @@
-package com.ge.dt.ptsc;
+package com.ge.dt.tsc;
 
 import org.junit.Ignore;
 import org.junit.Test;
@@ -14,8 +14,8 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = PredixTimeSeriesClientConfiguration.class)
-public class PredixTimeSeriesClientIT {
+@SpringApplicationConfiguration(classes = DigitalTwinTimeSeriesClientConfiguration.class)
+public class DigitalTwinTimeSeriesClientIT {
 
     @Autowired
     private IngestionClient ingestionClient;
@@ -25,11 +25,11 @@ public class PredixTimeSeriesClientIT {
 
     @Test
     @Ignore
-    public void ingestDataIntoTimeSeriesService() throws PredixTimeSeriesClientException {
+    public void ingestDataIntoTimeSeriesService() throws DigitalTwinTimeSeriesClientException {
         ingestionClient.doInSession(this::ingestDataUsingSession);
     }
 
-    private void ingestDataUsingSession(IngestionSession ingestionSession) throws PredixTimeSeriesClientException {
+    private void ingestDataUsingSession(IngestionSession ingestionSession) throws DigitalTwinTimeSeriesClientException {
         final IngestionRequest ingestionRequest = new IngestionRequest();
         ingestionRequest.addBody("integration-test2").addDataPoint(new Date(), 123.0, 3);
         ingestionSession.ingest(ingestionRequest);

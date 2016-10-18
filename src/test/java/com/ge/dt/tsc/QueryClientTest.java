@@ -1,4 +1,4 @@
-package com.ge.dt.ptsc;
+package com.ge.dt.tsc;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -24,14 +24,14 @@ public class QueryClientTest {
 
     @Before
     public void setup() {
-        final PredixTimeSeriesClientProperties predixTimeSeriesClientProperties = new PredixTimeSeriesClientProperties();
-        predixTimeSeriesClientProperties.setQueryEndpoint(QUERY_URI);
-        predixTimeSeriesClientProperties.setZoneId(ZONE_ID);
+        final DigitalTwinTimeSeriesClientProperties digitalTwinTimeSeriesClientProperties = new DigitalTwinTimeSeriesClientProperties();
+        digitalTwinTimeSeriesClientProperties.setQueryEndpoint(QUERY_URI);
+        digitalTwinTimeSeriesClientProperties.setZoneId(ZONE_ID);
 
         final RestTemplate restTemplate = new RestTemplate();
         mockRestServiceServer = createServer(restTemplate);
 
-        queryClient = new QueryClient(predixTimeSeriesClientProperties, restTemplate);
+        queryClient = new QueryClient(digitalTwinTimeSeriesClientProperties, restTemplate);
     }
 
     @Test
