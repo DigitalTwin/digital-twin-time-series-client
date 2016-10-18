@@ -1,4 +1,4 @@
-package com.ge.dt.ptsc;
+package com.ge.dt.tsc;
 
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -10,9 +10,9 @@ import java.net.URI;
 import java.util.UUID;
 
 @Component
-@ConfigurationProperties("com.ge.dt.ptsc")
+@ConfigurationProperties("com.ge.dt.tsc")
 @EnableAutoConfiguration
-public class PredixTimeSeriesClientProperties {
+public class DigitalTwinTimeSeriesClientProperties {
 
     @NotNull
     private URI tokenEndpoint;

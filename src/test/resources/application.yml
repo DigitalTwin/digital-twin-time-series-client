@@ -1,4 +1,4 @@
-com.ge.dt.ptsc:
+com.ge.dt.tsc:
   token-endpoint: https://<PREDIX_UAA_SERVICE_ID>.predix-uaa.run.aws-usw02-pr.ice.predix.io/oauth/token
   clientId: <UAA_CLIENT_ID>
   clientSecret: <UAA_CLIENT_ID>

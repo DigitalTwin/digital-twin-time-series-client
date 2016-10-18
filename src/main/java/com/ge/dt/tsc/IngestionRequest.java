@@ -1,4 +1,4 @@
-package com.ge.dt.ptsc;
+package com.ge.dt.tsc;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonGenerator;

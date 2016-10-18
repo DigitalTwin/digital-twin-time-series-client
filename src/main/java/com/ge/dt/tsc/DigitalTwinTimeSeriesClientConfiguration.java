@@ -1,4 +1,4 @@
-package com.ge.dt.ptsc;
+package com.ge.dt.tsc;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -13,12 +13,12 @@ import static java.util.Collections.singletonList;
 
 @Configuration
 @ComponentScan
-public class PredixTimeSeriesClientConfiguration {
+public class DigitalTwinTimeSeriesClientConfiguration {
 
     @Bean
     @Qualifier("timeseries-client")
-    public OAuth2RestTemplate oAuth2RestTemplate(PredixTimeSeriesClientProperties predixTimeSeriesClientProperties) {
-        final OAuth2RestTemplate newOAuth2RestTemplate = new OAuth2RestTemplate(oAuth2ProtectedResourceDetails(predixTimeSeriesClientProperties));
+    public OAuth2RestTemplate oAuth2RestTemplate(DigitalTwinTimeSeriesClientProperties digitalTwinTimeSeriesClientProperties) {
+        final OAuth2RestTemplate newOAuth2RestTemplate = new OAuth2RestTemplate(oAuth2ProtectedResourceDetails(digitalTwinTimeSeriesClientProperties));
         newOAuth2RestTemplate.setMessageConverters(singletonList(new MappingJackson2HttpMessageConverter()));
         return newOAuth2RestTemplate;
 
@@ -26,11 +26,11 @@ public class PredixTimeSeriesClientConfiguration {
 
     @Bean
     @Qualifier("timeseries-client")
-    public OAuth2ProtectedResourceDetails oAuth2ProtectedResourceDetails(PredixTimeSeriesClientProperties predixTimeSeriesClientProperties) {
+    public OAuth2ProtectedResourceDetails oAuth2ProtectedResourceDetails(DigitalTwinTimeSeriesClientProperties digitalTwinTimeSeriesClientProperties) {
         final ClientCredentialsResourceDetails clientCredentialsResourceDetails = new ClientCredentialsResourceDetails();
-        clientCredentialsResourceDetails.setAccessTokenUri(predixTimeSeriesClientProperties.getTokenEndpoint().toString());
-        clientCredentialsResourceDetails.setClientId(predixTimeSeriesClientProperties.getClientId());
-        clientCredentialsResourceDetails.setClientSecret(predixTimeSeriesClientProperties.getClientSecret());
+        clientCredentialsResourceDetails.setAccessTokenUri(digitalTwinTimeSeriesClientProperties.getTokenEndpoint().toString());
+        clientCredentialsResourceDetails.setClientId(digitalTwinTimeSeriesClientProperties.getClientId());
+        clientCredentialsResourceDetails.setClientSecret(digitalTwinTimeSeriesClientProperties.getClientSecret());
         return clientCredentialsResourceDetails;
     }
 

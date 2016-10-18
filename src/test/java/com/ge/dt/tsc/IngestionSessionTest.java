@@ -1,4 +1,4 @@
-package com.ge.dt.ptsc;
+package com.ge.dt.tsc;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -34,7 +34,7 @@ public class IngestionSessionTest {
     }
 
     @Test
-    public void sendsJsonIngestionRequestPayload() throws PredixTimeSeriesClientException {
+    public void sendsJsonIngestionRequestPayload() throws DigitalTwinTimeSeriesClientException {
         final IngestionRequest ingestionRequest = new IngestionRequest();
         ingestionRequest.addBody("foo").addDataPoint(new Date(123L), 234, 0);
 
@@ -43,7 +43,7 @@ public class IngestionSessionTest {
                 "body\":\\[\\{\"attributes\":\\{\\},\"name\":\"foo\",\"datapoints\":\\[\\[123,234.0,0\\]\\]\\}\\]\\}$"));
     }
 
-    @Test(expected = PredixTimeSeriesClientException.class)
+    @Test(expected = DigitalTwinTimeSeriesClientException.class)
     public void rethrowsExceptionWhenPerformingObjectMapping() throws Exception {
         final ObjectMapper objectMapper = mock(ObjectMapper.class);
         when(objectMapper.writeValueAsString(any())).thenThrow(new JsonMappingException("Boom"));

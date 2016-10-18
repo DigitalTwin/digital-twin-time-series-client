@@ -1,4 +1,4 @@
-package com.ge.dt.ptsc;
+package com.ge.dt.tsc;
 
 import com.neovisionaries.ws.client.*;
 import org.junit.Before;
@@ -36,7 +36,7 @@ public class IngestionClientTest {
     private static Logger LOGGER;
 
     private IngestionClient ingestionClient;
-    private PredixTimeSeriesClientProperties predixTimeSeriesClientProperties;
+    private DigitalTwinTimeSeriesClientProperties digitalTwinTimeSeriesClientProperties;
 
     @Mock
     private WebSocketFactory webSocketFactory;
@@ -67,21 +67,21 @@ public class IngestionClientTest {
         when(oAuth2RestTemplate.getAccessToken()).thenReturn(oAuth2AccessToken);
         when(oAuth2AccessToken.getValue()).thenReturn("foo");
 
-        predixTimeSeriesClientProperties = new PredixTimeSeriesClientProperties();
-        predixTimeSeriesClientProperties.setTokenEndpoint(URI.create("https://www.uaa.com"));
-        predixTimeSeriesClientProperties.setClientId("clientId");
-        predixTimeSeriesClientProperties.setClientSecret("clientSecret");
-        predixTimeSeriesClientProperties.setIngestionEndpoint(URI.create("wss://localhost"));
-        predixTimeSeriesClientProperties.setZoneId(randomUUID());
+        digitalTwinTimeSeriesClientProperties = new DigitalTwinTimeSeriesClientProperties();
+        digitalTwinTimeSeriesClientProperties.setTokenEndpoint(URI.create("https://www.uaa.com"));
+        digitalTwinTimeSeriesClientProperties.setClientId("clientId");
+        digitalTwinTimeSeriesClientProperties.setClientSecret("clientSecret");
+        digitalTwinTimeSeriesClientProperties.setIngestionEndpoint(URI.create("wss://localhost"));
+        digitalTwinTimeSeriesClientProperties.setZoneId(randomUUID());
 
-        ingestionClient = new IngestionClient(predixTimeSeriesClientProperties, oAuth2RestTemplate);
+        ingestionClient = new IngestionClient(digitalTwinTimeSeriesClientProperties, oAuth2RestTemplate);
         setField(ingestionClient, "webSocketFactory", webSocketFactory);
     }
 
     @Test
     public void createsSocketToTimeSeriesService() throws IOException {
         invokeMethod(ingestionClient, "createWebSocket");
-        verify(webSocketFactory).createSocket(predixTimeSeriesClientProperties.getIngestionEndpoint());
+        verify(webSocketFactory).createSocket(digitalTwinTimeSeriesClientProperties.getIngestionEndpoint());
     }
 
     @Test
@@ -93,7 +93,7 @@ public class IngestionClientTest {
     @Test
     public void addsZoneIdToWebSocketHandshake() {
         invokeMethod(ingestionClient, "createWebSocket");
-        verify(webSocket).addHeader("Predix-Zone-Id", predixTimeSeriesClientProperties.getZoneId().toString());
+        verify(webSocket).addHeader("Predix-Zone-Id", digitalTwinTimeSeriesClientProperties.getZoneId().toString());
     }
 
     @Test
@@ -110,20 +110,20 @@ public class IngestionClientTest {
 
     @Test
     public void setsProxySettingsIfProvided() {
-        setField(predixTimeSeriesClientProperties, "proxyHost", "proxy.foo.com");
-        setField(predixTimeSeriesClientProperties, "proxyPort", 80);
+        setField(digitalTwinTimeSeriesClientProperties, "proxyHost", "proxy.foo.com");
+        setField(digitalTwinTimeSeriesClientProperties, "proxyPort", 80);
 
         final ProxySettings proxySettings = mock(ProxySettings.class);
         when(proxySettings.setHost(anyString())).thenReturn(proxySettings);
         when(webSocketFactory.getProxySettings()).thenReturn(proxySettings);
 
         invokeMethod(ingestionClient, "configureProxySettings");
-        verify(proxySettings).setHost(predixTimeSeriesClientProperties.getProxyHost());
-        verify(proxySettings).setPort(predixTimeSeriesClientProperties.getProxyPort());
+        verify(proxySettings).setHost(digitalTwinTimeSeriesClientProperties.getProxyHost());
+        verify(proxySettings).setPort(digitalTwinTimeSeriesClientProperties.getProxyPort());
     }
 
     @Test
-    public void connectsForSessionOperations() throws WebSocketException, PredixTimeSeriesClientException {
+    public void connectsForSessionOperations() throws WebSocketException, DigitalTwinTimeSeriesClientException {
         final IngestionJob ingestionJob = mock(IngestionJob.class);
         ingestionClient.doInSession(ingestionJob);
 
@@ -133,7 +133,7 @@ public class IngestionClientTest {
     }
 
     @Test
-    public void disconnectsAfterSessionOperations() throws PredixTimeSeriesClientException {
+    public void disconnectsAfterSessionOperations() throws DigitalTwinTimeSeriesClientException {
         final IngestionJob ingestionJob = mock(IngestionJob.class);
         ingestionClient.doInSession(ingestionJob);
 
@@ -143,7 +143,7 @@ public class IngestionClientTest {
     }
 
     @Test
-    public void createSessionWithWebSocket() throws PredixTimeSeriesClientException {
+    public void createSessionWithWebSocket() throws DigitalTwinTimeSeriesClientException {
         final IngestionJob ingestionJob = mock(IngestionJob.class);
         ingestionClient.doInSession(ingestionJob);
 
@@ -152,14 +152,14 @@ public class IngestionClientTest {
         assertThat(getField(sessionCaptor.getValue(), "webSocket"), is(sameInstance(webSocket)));
     }
 
-    @Test(expected = PredixTimeSeriesClientException.class)
-    public void createWebSocketRethrowsException() throws IOException, PredixTimeSeriesClientException {
+    @Test(expected = DigitalTwinTimeSeriesClientException.class)
+    public void createWebSocketRethrowsException() throws IOException, DigitalTwinTimeSeriesClientException {
         when(webSocketFactory.createSocket(any(URI.class))).thenThrow(new IOException());
         ingestionClient.doInSession(mock(IngestionJob.class));
     }
 
-    @Test(expected = PredixTimeSeriesClientException.class)
-    public void doInSessionRethrowsConnectException() throws WebSocketException, PredixTimeSeriesClientException {
+    @Test(expected = DigitalTwinTimeSeriesClientException.class)
+    public void doInSessionRethrowsConnectException() throws WebSocketException, DigitalTwinTimeSeriesClientException {
         when(webSocket.connect()).thenThrow(new WebSocketException(UNSUPPORTED_PROTOCOL));
         ingestionClient.doInSession(mock(IngestionJob.class));
     }
