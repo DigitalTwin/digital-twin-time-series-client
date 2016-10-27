@@ -1,4 +1,4 @@
-package com.ge.dt.ptsc;
+package com.ge.dt.tsc;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,11 +12,11 @@ public class IngestionSession {
         this.webSocket = webSocket;
     }
 
-    public void ingest(IngestionRequest ingestionRequest) throws PredixTimeSeriesClientException {
+    public void ingest(IngestionRequest ingestionRequest) throws DigitalTwinTimeSeriesClientException {
         try {
             webSocket.sendText(new ObjectMapper().writeValueAsString(ingestionRequest));
         } catch (JsonProcessingException e) {
-            throw new PredixTimeSeriesClientException("Encountered exception when generating request JSON", e);
+            throw new DigitalTwinTimeSeriesClientException("Encountered exception when generating request JSON", e);
         }
     }
 }

@@ -3,10 +3,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.ge.digitaltwin</groupId>
-    <artifactId>predix-time-series-client</artifactId>
+    <artifactId>digital-twin-time-series-client</artifactId>
     <version>2.1.0</version>
 
-    <name>Predix Time Series Client</name>
+    <name>Digital Twin Time Series Client</name>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
